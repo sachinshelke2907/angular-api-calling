@@ -19,6 +19,7 @@
         <tr *ngFor="let comment of commentList">
             <td>{{ comment.id }}</td>
             <td>{{ comment.description }}</td>
+            <td><button type="button" (click)="onDelete(comment.id)">Delete</button></td>
         </tr>
     </tbody>
 </table>

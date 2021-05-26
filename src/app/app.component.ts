@@ -21,6 +21,11 @@ export class AppComponent implements OnInit {
         this.onLoadComment();
     }
 
+    /**
+     * For ref : https://stackblitz.com/edit/angular-ivy-rmqbhr?file=src%2Fapp%2Fproducts.ts
+     * 
+     * @param comment 
+     */
     private add(comment : Comment) {
         this.commentList.push(comment);
     }
@@ -62,5 +67,14 @@ export class AppComponent implements OnInit {
         error => {
           console.log(error.message);
         });
+    }
+
+    /**
+     * 
+     * @param deleteById 
+     */
+    onDelete(deleteById : string | number) : void {
+        this.restService.delete(this.url, deleteById);
+        this.onLoadComment();
     }
 }

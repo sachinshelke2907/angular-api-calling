@@ -54,4 +54,10 @@ export class RestServiceCallerService implements BaseService {
     url(restUrl : string) : string {
         return environment.baseUrl + restUrl;
     }
+
+    delete(restUrl : string, deleteByInput : string | number) {
+        this.httpClient.delete(this.url(restUrl) + '/' + deleteByInput).subscribe(responseData => {
+            console.log(responseData);
+        });
+    }
 }
