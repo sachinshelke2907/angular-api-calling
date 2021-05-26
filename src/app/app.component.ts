@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment.local';
 import { Comment } from './models/comment.model';
 import { RestServiceCallerService } from './rest-service-caller.service';
@@ -9,21 +10,30 @@ import { RestServiceCallerService } from './rest-service-caller.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+    
     title = environment.title;
+    @Output() commentList : Comment[] = [];
+    url = 'comment.json';
 
     constructor(private restService : RestServiceCallerService) {}
 
     ngOnInit() : void {
+        this.onLoadComment();
+    }
 
-        let url = 'comment.json';
-        const comment : Comment = {
-            id : '1',
-            description : 'Test Description'
-        }
-
+    onSubmit(comment : Comment) : void {
         let result : string;
+        this.restService.create(this.url, comment);
+    }
 
-        this.restService.create(url, comment, result);
+    onLoadComment() : void {
+
+        this.restService.fetchAll(this.url).subscribe(posts => {
+            this.commentList = posts as Comment[];
+            console.log(this.commentList);
+        },
+        error => {
+          console.log(error.message);
+        });
     }
 }
