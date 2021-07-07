@@ -49,7 +49,6 @@ export class AppComponent implements OnInit {
      * @param comment 
      */
     onSubmit(comment : Comment) : void {
-        let result : string;
         this.restService.create(this.url, comment);
         this.onLoadComment();
     }
@@ -61,11 +60,8 @@ export class AppComponent implements OnInit {
 
         this.restService.fetchAll(this.url).subscribe(comments => {
             this.addCommentInList(comments as Comment[]);
-            // this.commentList = posts as Comment[];
-            console.log(this.commentList);
         },
         error => {
-          console.log(error.message);
         });
     }
 
