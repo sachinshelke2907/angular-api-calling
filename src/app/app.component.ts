@@ -1,23 +1,24 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment.local';
+import { LocalStorageService } from './local-storage.service';
 import { Comment } from './models/comment.model';
 import { RestServiceCallerService } from './rest-service-caller.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    
+
     title = environment.title;
-    commentList : Comment[] = [];
+    commentList: Comment[] = [];
     url = 'comment.json';
 
-    constructor(private restService : RestServiceCallerService) {}
+    constructor(private restService: RestServiceCallerService, private localStorageService: LocalStorageService) { }
 
-    ngOnInit() : void {
+    ngOnInit(): void {
         this.onLoadComment();
     }
 
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit {
      * 
      * @param comment 
      */
-    private add(comment : Comment) {
+    private add(comment: Comment) {
         this.commentList.push(comment);
     }
 
@@ -35,11 +36,11 @@ export class AppComponent implements OnInit {
      * 
      * @param rows 
      */
-    private addCommentInList(rows : Comment[]) : void {
-        
+    private addCommentInList(rows: Comment[]): void {
+
         this.commentList = [];
 
-        for(let row of rows){
+        for (let row of rows) {
             this.add(row);
         }
     }
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit {
     /**
      * 
      */
-    onLoadComment() : void {
+    onLoadComment(): void {
 
         this.restService.fetchAll(this.url).subscribe(comments => {
             this.addCommentInList(comments as Comment[]);
@@ -69,8 +70,26 @@ export class AppComponent implements OnInit {
      * 
      * @param deleteById 
      */
-    onDelete(deleteById : string | number) : void {
+    onDelete(deleteById: string | number): void {
         this.restService.delete(this.url, deleteById);
         this.onLoadComment();
+    }
+
+    onLoadLocalStorage(): void {
+        this.localStorageService.put('comments', this.commentList);
+    }
+
+    onRemoveLocalStorage(): void {
+        this.localStorageService.remove('comments');
+    }
+
+    onGetLocalStorage(): void {
+        const comment = this.localStorageService.get('comments');
+        console.log(comment);
+    }
+
+    onNestedLocalStorage(): void {
+        const comment = this.localStorageService.find('comments.1.description');
+        console.log(comment);
     }
 }
