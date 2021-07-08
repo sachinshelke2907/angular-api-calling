@@ -25,6 +25,11 @@ This project use number of open-source project to work properly
 * Open CMD project folder run `npm install` or `yarn install` if you have yarn installed.
 * After completing installation project is ready to run.
 
+### Development server
+
+* Run `ng serve` for a dev server. 
+* Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
 ### Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
